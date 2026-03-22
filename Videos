@@ -1,3 +1,0 @@
-git add kk.mp4 lamine.mp4
-git commit -m "Add course preview videos"
-git push origin main
