@@ -18,7 +18,6 @@
             --bg-dark: #000000;
             --bg-gray: #1a1a1a; 
             --border-color: rgba(255, 255, 255, 0.1);
-            --ae-color: #cf96fd; /* لون توهج After Effects */
         }
 
         body {
@@ -43,8 +42,47 @@
         
         /* --- 01 / CURRICULUM --- */
         .curriculum-container { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; margin-bottom: 100px; direction: ltr; width: 100%; }
-        .reels-column { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; position: sticky; top: 40px; }
-        .reel-box { aspect-ratio: 9/16; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 20px; }
+        .reels-column { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; align-content: start; }
+        
+        /* VIDEO INTERACTIVE STYLES */
+        .reel-box { 
+            aspect-ratio: 9/16; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            transition: 0.3s; 
+            position: relative; 
+            cursor: pointer; 
+            overflow: hidden;
+        }
+        .reel-box video { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            border-radius: 20px; 
+            transition: 0.5s;
+        }
+        .reel-box:hover { border-color: var(--gold-primary); background: rgba(212, 175, 55, 0.05); }
+        
+        /* Control Overlay */
+        .video-controls {
+            position: absolute; bottom: 15px; right: 15px;
+            display: flex; gap: 10px; z-index: 5;
+            opacity: 0; transition: 0.3s;
+        }
+        .reel-box:hover .video-controls { opacity: 1; }
+        .control-btn {
+            background: rgba(0, 0, 0, 0.6); border: 1px solid var(--gold-primary);
+            color: var(--gold-primary); width: 35px; height: 35px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; cursor: pointer; backdrop-filter: blur(5px);
+        }
+        .reel-box.paused video { opacity: 0.3; filter: grayscale(1); }
+        .reel-box.paused::after {
+            content: "▶"; position: absolute; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); font-size: 40px; color: var(--gold-primary);
+        }
+
         .titles-column { display: flex; flex-direction: column; gap: 12px; direction: rtl; }
         .video-row { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); padding: 20px 25px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; transition: 0.3s; cursor: pointer; }
         .video-row:hover { background: rgba(212, 175, 55, 0.1); border-color: var(--gold-primary); transform: translateX(-10px); }
@@ -100,39 +138,28 @@
 
         /* --- 04 / FEEDBACKS --- */
         .feedback-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; width: 100%; margin-bottom: 100px; }
-        .feedback-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); padding: 30px; border-radius: 25px; transition: 0.3s; }
+        .feedback-card { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); padding: 30px; border-radius: 25px; transition: 0.3s; text-align: right; }
         .feedback-card:hover { border-color: var(--gold-primary); background: rgba(212, 175, 55, 0.05); transform: translateY(-5px); }
-        .student-info { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .student-info { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; direction: rtl; }
         .avatar { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold-primary); object-fit: cover; }
         .student-name { font-weight: 700; color: #fff; font-size: 1.1rem; }
         .rating-box { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
         .rating-num { color: #fff; font-weight: 700; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
         
-        .star-container { 
-            display: flex; 
-            gap: 3px; 
-            direction: ltr !important; 
-            font-size: 1.1rem;
-        }
+        .star-container { display: flex; gap: 3px; direction: ltr !important; font-size: 1.1rem; }
         .star-box { position: relative; display: inline-block; color: #333; }
         .star-box::before { content: "★"; }
-        .star-fill { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            overflow: hidden; 
-            color: var(--yellow-bright); 
-            width: 0; 
-        }
+        .star-fill { position: absolute; top: 0; left: 0; overflow: hidden; color: var(--yellow-bright); width: 0; }
         .star-fill::before { content: "★"; }
-
         .comment { color: #aaa; line-height: 1.7; font-size: 0.95rem; font-weight: 300; }
 
         /* --- 05 / FAQ --- */
         .faq-container { width: 100%; max-width: 900px; margin-bottom: 100px; }
-        .faq-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 20px; margin-bottom: 15px; overflow: hidden; }
+        .faq-item { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 20px; margin-bottom: 15px; overflow: hidden; text-align: right; }
         .faq-question { padding: 25px 30px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; color: #fff; }
-        .faq-answer { max-height: 0; padding: 0 30px; color: #aaa; transition: 0.5s; opacity: 0; line-height: 1.8; font-weight: 300; }
+        .faq-question span { color: var(--gold-primary); font-size: 1.5rem; transition: 0.3s; }
+        .faq-item.active .faq-question span { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; padding: 0 30px; color: #aaa; transition: 0.5s ease; opacity: 0; line-height: 1.8; font-weight: 300; }
         .faq-item.active .faq-answer { max-height: 500px; padding-bottom: 30px; opacity: 1; }
 
         /* --- SIGNUP --- */
@@ -150,7 +177,7 @@
 
         @media (max-width: 900px) { 
             .curriculum-container, .pricing-grid { grid-template-columns: 1fr; } 
-            .reels-column { display: none; } 
+            .reels-column { grid-template-columns: 1fr 1fr; order: 2; margin-top: 30px; } 
             .waitlist { padding: 60px 25px; } 
         }
     </style>
@@ -168,8 +195,43 @@
     <div class="section-label">01 / مـنهج الـدورة الـتعليمي</div>
     <div class="curriculum-container">
         <div class="reels-column">
-            <div class="reel-box"></div><div class="reel-box"></div><div class="reel-box"></div><div class="reel-box"></div>
+            <div class="reel-box" onclick="togglePlay(this)">
+                <video loop muted playsinline autoplay>
+                    <source src="kk.mp4" type="video/mp4">
+                </video>
+                <div class="video-controls">
+                    <div class="control-btn" onclick="toggleMute(event, this)">🔊</div>
+                </div>
+            </div>
+
+            <div class="reel-box" onclick="togglePlay(this)">
+                <video loop muted playsinline autoplay>
+                    <source src="lamine.mp4" type="video/mp4">
+                </video>
+                <div class="video-controls">
+                    <div class="control-btn" onclick="toggleMute(event, this)">🔊</div>
+                </div>
+            </div>
+
+            <div class="reel-box" onclick="togglePlay(this)">
+                <video loop muted playsinline autoplay>
+                    <source src="yssf.mp4" type="video/mp4">
+                </video>
+                <div class="video-controls">
+                    <div class="control-btn" onclick="toggleMute(event, this)">🔊</div>
+                </div>
+            </div>
+
+            <div class="reel-box" onclick="togglePlay(this)">
+                <video loop muted playsinline autoplay>
+                    <source src="ysf reel 1.mp4" type="video/mp4">
+                </video>
+                <div class="video-controls">
+                    <div class="control-btn" onclick="toggleMute(event, this)">🔊</div>
+                </div>
+            </div>
         </div>
+        
         <div class="titles-column">
             <div class="video-row"><span class="video-title">Why After Effects</span><span class="video-num">01</span></div>
             <div class="video-row"><span class="video-title">Interface Basics</span><span class="video-num">02</span></div>
@@ -223,7 +285,7 @@
     <div class="feedback-grid">
         <div class="feedback-card">
             <div class="student-info">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="avatar">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="avatar" alt="student">
                 <div>
                     <div class="student-name">أمين .ب</div>
                     <div class="rating-box">
@@ -243,7 +305,7 @@
 
         <div class="feedback-card">
             <div class="student-info">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" class="avatar">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" class="avatar" alt="student">
                 <div>
                     <div class="student-name">ياسين .م</div>
                     <div class="rating-box">
@@ -263,7 +325,7 @@
 
         <div class="feedback-card">
             <div class="student-info">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="avatar">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop" class="avatar" alt="student">
                 <div>
                     <div class="student-name">سارة .ع</div>
                     <div class="rating-box">
@@ -307,31 +369,37 @@
     </div>
 
     <div class="waitlist" id="signup-section">
-        <h2>انضم إلينا</h2>
-        <form class="email-form" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="09ba96c6-276f-4ac9-9fc7-97f87e818342">
-            <input type="hidden" name="redirect" value="https://x3eybeeeeeey.github.io/catch-the-fish/success.html">
-            
-            <input type="email" name="email" placeholder="بريدك الإلكتروني" required id="email-input">
-            <div class="select-container">
-                <select id="pack-selector" name="package" class="custom-select" required>
-                    <option value="" disabled selected>اختر باقتك المفضلة</option>
-                    <option value="starter">STARTER PACK - 200 DH</option>
-                    <option value="pro">PRO ACADEMY - 400 DH</option>
-                </select>
-                <div class="select-arrow"></div>
-            </div>
-            <button type="submit" class="submit-btn btn-interact">سجلني الآن</button>
-        </form>
-    </div>
-</div>
+    <h2>انضم إلينا</h2>
+    
+    <form action="https://api.web3forms.com/submit" method="POST" class="email-form">
+        <input type="hidden" name="access_key" value="09ba96c6-276f-4ac9-9fc7-97f87e818342">
+        <input type="hidden" name="redirect" value="https://x3eybeeeeeey.github.io/catch-the-fish/success.html">
+        <input type="hidden" name="from_name" value="CATCH THE FISH Academy">
+
+        <input type="text" name="name" placeholder="الاسم الكامل" required>
+        
+        <input type="email" name="email" placeholder="بريدك الإلكتروني" required id="email-input">
+        
+        <div class="select-container">
+            <select id="pack-selector" name="package" class="custom-select" required>
+                <option value="" disabled selected>اختر باقتك المفضلة</option>
+                <option value="starter">STARTER PACK - 200 DH</option>
+                <option value="pro">PRO ACADEMY - 400 DH</option>
+            </select>
+            <div class="select-arrow"></div>
+        </div>
+
+        <button type="submit" class="submit-btn btn-interact">سجلني الآن</button>
+    </form>
 
 <script>
     // FAQ Toggle
-    document.querySelectorAll('.faq-question').forEach(button => {
-        button.addEventListener('click', () => {
-            const item = button.parentElement;
-            item.classList.toggle('active');
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            const isOpen = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('active'));
+            if (!isOpen) item.classList.add('active');
         });
     });
 
@@ -339,6 +407,26 @@
     function selectPack(packType) {
         document.getElementById('pack-selector').value = packType;
         document.getElementById('signup-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* --- VIDEO INTERACTION SCRIPT --- */
+    function togglePlay(box) {
+        const video = box.querySelector('video');
+        if (video.paused) {
+            video.play();
+            box.classList.remove('paused');
+        } else {
+            video.pause();
+            box.classList.add('paused');
+        }
+    }
+
+    function toggleMute(event, btn) {
+        event.stopPropagation(); 
+        const video = btn.closest('.reel-box').querySelector('video');
+        video.muted = !video.muted;
+        btn.innerHTML = video.muted ? "🔇" : "🔊";
+        btn.style.borderColor = video.muted ? "rgba(255,255,255,0.3)" : "var(--gold-primary)";
     }
 </script>
 
