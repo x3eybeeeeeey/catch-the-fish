@@ -54,6 +54,9 @@
             position: relative; 
             cursor: pointer; 
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .reel-box video { 
             width: 100%; 
@@ -61,6 +64,7 @@
             object-fit: cover; 
             border-radius: 20px; 
             transition: 0.5s;
+            background: #000;
         }
         .reel-box:hover { border-color: var(--gold-primary); background: rgba(212, 175, 55, 0.05); }
         
@@ -81,6 +85,7 @@
         .reel-box.paused::after {
             content: "▶"; position: absolute; top: 50%; left: 50%; 
             transform: translate(-50%, -50%); font-size: 40px; color: var(--gold-primary);
+            z-index: 4;
         }
 
         .titles-column { display: flex; flex-direction: column; gap: 12px; direction: rtl; }
@@ -391,6 +396,8 @@
 
         <button type="submit" class="submit-btn btn-interact">سجلني الآن</button>
     </form>
+    </div>
+</div>
 
 <script>
     // FAQ Toggle
@@ -428,6 +435,16 @@
         btn.innerHTML = video.muted ? "🔇" : "🔊";
         btn.style.borderColor = video.muted ? "rgba(255,255,255,0.3)" : "var(--gold-primary)";
     }
+
+    // Auto-fix for browsers that block autoplay
+    window.addEventListener('load', () => {
+        document.querySelectorAll('video').forEach(v => {
+            v.play().catch(() => {
+                // If autoplay is blocked, show the play icon
+                v.closest('.reel-box').classList.add('paused');
+            });
+        });
+    });
 </script>
 
 </body>
